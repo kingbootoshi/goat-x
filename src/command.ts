@@ -145,6 +145,49 @@ async function sendTweetCommand(
   }
 }
 
+// Function to send a long tweet (Note Tweet) with optional media files
+async function sendLongTweetCommand(
+  text: string,
+  mediaFiles?: string[],
+  replyToTweetId?: string
+): Promise<string | null> {
+  try {
+    let mediaData;
+
+    if (mediaFiles && mediaFiles.length > 0) {
+      // Prepare media data by reading files and determining media types
+      mediaData = await Promise.all(
+        mediaFiles.map(async (filePath) => {
+          const absolutePath = path.resolve(__dirname, filePath);
+          const buffer = await fs.promises.readFile(absolutePath);
+          const ext = path.extname(filePath).toLowerCase();
+          const mediaType = getMediaType(ext);
+          return { data: buffer, mediaType };
+        })
+      );
+    }
+
+    // Send the long tweet using the sendLongTweet function
+    const response = await scraper.sendLongTweet(text, replyToTweetId, mediaData);
+
+    // Parse the response to extract the tweet ID
+    const responseData = await response.json();
+    const tweetId =
+      responseData?.data?.notetweet_create?.tweet_results?.result?.rest_id;
+
+    if (tweetId) {
+      console.log(`Long tweet sent: "${text.substring(0, 50)}..." (ID: ${tweetId})`);
+      return tweetId;
+    } else {
+      console.error('Tweet ID not found in response.');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error sending long tweet:', error);
+    return null;
+  }
+}
+
 // Function to get media type based on file extension
 function getMediaType(ext: string): string {
   switch (ext) {
@@ -190,11 +233,16 @@ async function getRepliesToTweet(tweetId: string): Promise<Tweet[]> {
 // Function to reply to a specific tweet
 async function replyToTweet(tweetId: string, text: string) {
   try {
-    // Pass empty array for mediaFiles (2nd param) and tweetId as replyToTweetId (3rd param)
-    const replyId = await sendTweetCommand(text, [], tweetId);
+    // Check if the text is longer than Twitter's standard tweet length (280 characters)
+    const isLongTweet = text.length > 280;
+
+    // Use sendLongTweetCommand for long tweets, otherwise use regular sendTweetCommand
+    const replyId = isLongTweet 
+      ? await sendLongTweetCommand(text, [], tweetId)
+      : await sendTweetCommand(text, [], tweetId);
 
     if (replyId) {
-      console.log(`Reply sent (ID: ${replyId}).`);
+      console.log(`Reply sent (ID: ${replyId}). ${isLongTweet ? '(as long tweet)' : ''}`);
     }
   } catch (error) {
     console.error('Error sending reply:', error);
@@ -397,6 +445,7 @@ async function executeCommand(commandLine: string) {
       console.log('  like <tweetId>            - Like a tweet by its ID');
       console.log('  retweet <tweetId>         - Retweet a tweet by its ID');
       console.log('  follow <username>         - Follow a user by their username');
+      console.log('  create-space "<description>" [timestamp] - Create a Twitter Space with optional scheduled time (Unix timestamp)');
       break;
 
     case 'exit':
@@ -486,52 +535,50 @@ async function executeCommand(commandLine: string) {
       }
       break;
 
+    case 'create-space': {
+      await ensureAuthenticated();
+      
+      const description = args[0];
+      const scheduledTime = args[1] ? parseInt(args[1]) : undefined;
+      
+      if (!description) {
+        console.log('Please provide a description for the Space.');
+        console.log('Usage: create-space "<description>" [timestamp]');
+        console.log('Example: create-space "My awesome Space!" 1703980800');
+        break;
+      }
+
+      try {
+        const spaceOptions = {
+          description,
+          languages: ['en'],
+          scheduled_start_time: scheduledTime || 0,
+          is_space_available_for_replay: true,
+          is_space_available_for_clipping: true
+        };
+
+        const space = await scraper.createSpace(spaceOptions);
+        
+        if (space) {
+          console.log('Space created successfully!');
+          console.log('Space details:', {
+            id: space.id,
+            url: space.shareUrl,
+            description: space.description,
+            scheduledTime: scheduledTime ? new Date(scheduledTime * 1000).toLocaleString() : 'Immediate'
+          });
+        } else {
+          console.log('Failed to create Space. No response received.');
+        }
+      } catch (error) {
+        console.error('Error creating Space:', error);
+      }
+      break;
+    }
+
     default:
       console.log(`Unknown command: ${command}. Type 'help' to see available commands.`);
       break;
-  }
-}
-
-// Function to send a long tweet (Note Tweet) with optional media files
-async function sendLongTweetCommand(
-  text: string,
-  mediaFiles?: string[],
-  replyToTweetId?: string
-): Promise<string | null> {
-  try {
-    let mediaData;
-
-    if (mediaFiles && mediaFiles.length > 0) {
-      // Prepare media data by reading files and determining media types
-      mediaData = await Promise.all(
-        mediaFiles.map(async (filePath) => {
-          const absolutePath = path.resolve(__dirname, filePath);
-          const buffer = await fs.promises.readFile(absolutePath);
-          const ext = path.extname(filePath).toLowerCase();
-          const mediaType = getMediaType(ext);
-          return { data: buffer, mediaType };
-        })
-      );
-    }
-
-    // Send the long tweet using the sendLongTweet function
-    const response = await scraper.sendLongTweet(text, replyToTweetId, mediaData);
-
-    // Parse the response to extract the tweet ID
-    const responseData = await response.json();
-    const tweetId =
-      responseData?.data?.notetweet_create?.tweet_results?.result?.rest_id;
-
-    if (tweetId) {
-      console.log(`Long tweet sent: "${text.substring(0, 50)}..." (ID: ${tweetId})`);
-      return tweetId;
-    } else {
-      console.error('Tweet ID not found in response.');
-      return null;
-    }
-  } catch (error) {
-    console.error('Error sending long tweet:', error);
-    return null;
   }
 }
 

@@ -65,6 +65,7 @@ import {
   TTweetv2TweetField,
   TTweetv2UserField,
 } from 'twitter-api-v2';
+import { createSpace } from './spaces';
 import {
   DirectMessagesResponse,
   getDirectMessageConversations,
@@ -88,6 +89,15 @@ export interface ScraperOptions {
    * proxy requests through other hosts, for example.
    */
   transform: Partial<FetchTransformOptions>;
+}
+
+// Add this interface near the top of the file with other interfaces
+interface CreateSpaceOptions {
+  description: string;
+  languages?: string[];
+  scheduled_start_time?: number;
+  is_space_available_for_replay?: boolean;
+  is_space_available_for_clipping?: boolean;
 }
 
 /**
@@ -890,5 +900,20 @@ export class Scraper {
     }
 
     return res.value;
+  }
+
+  /**
+   * Creates a Twitter Space
+   * @param options Options for creating the Space
+   * @returns Promise containing the created Space details
+   */
+  public async createSpace(options: CreateSpaceOptions) {
+    return await createSpace(this.auth, {
+      description: options.description,
+      languages: options.languages || ['en'],
+      scheduled_start_time: options.scheduled_start_time || 0,
+      is_space_available_for_replay: options.is_space_available_for_replay || false,
+      is_space_available_for_clipping: options.is_space_available_for_clipping || false
+    });
   }
 }
