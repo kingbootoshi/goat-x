@@ -1,7 +1,7 @@
 {
-  "name": "silk-x-base",
-  "description": "A twitter client for agents",
-  "keywords": [],
+  "name": "goat-x",
+  "description": "A Twitter/X client for agents with scraping and posting capabilities",
+  "keywords": ["twitter", "x", "scraper", "api", "client", "agent", "bot"],
   "version": "1.4.0",
   "main": "dist/default/cjs/index.js",
   "types": "./dist/types/index.d.ts",
@@ -16,14 +16,16 @@
       "require": "./dist/default/cjs/index.js"
     }
   },
-  "author": "ai16z",
+  "author": "thebuildooor",
   "license": "MIT",
   "scripts": {
     "build": "rimraf dist && rollup -c",
     "docs:generate": "typedoc --options typedoc.json",
     "docs:deploy": "npm run docs:generate && gh-pages -d docs",
     "format": "prettier --write src/**/*.ts",
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "npm run build",
+    "prepack": "npm run build"
   },
   "dependencies": {
     "@sinclair/typebox": "^0.32.20",
@@ -71,5 +73,21 @@
       "eslint --cache --fix",
       "prettier --write"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thebuildooor/goat-x.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thebuildooor/goat-x/issues"
+  },
+  "homepage": "https://github.com/thebuildooor/goat-x#readme",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
   }
 }

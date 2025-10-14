@@ -431,7 +431,7 @@ async function executeCommand(commandLine: string) {
       const mediaFiles = args.slice(2);
 
       // Prepare the quote tweet text including the quoted tweet URL
-      const quoteTweetText = `${text} https://twitter.com/user/status/${quotedTweetId}`;
+      const quoteTweetText = `${text} https://x.com/user/status/${quotedTweetId}`;
 
       // Send the quote tweet using the sendTweetCommand function
       await sendTweetCommand(quoteTweetText, mediaFiles);

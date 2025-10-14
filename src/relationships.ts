@@ -186,7 +186,7 @@ export async function followUser(
   // Prepare the headers
   const headers = new Headers({
     'Content-Type': 'application/x-www-form-urlencoded',
-    Referer: `https://twitter.com/${username}`,
+    Referer: `https://x.com/${username}`,
     'X-Twitter-Active-User': 'yes',
     'X-Twitter-Auth-Type': 'OAuth2Session',
     'X-Twitter-Client-Language': 'en',
