@@ -2,7 +2,7 @@
   "name": "goat-x",
   "description": "A Twitter/X client for agents with scraping and posting capabilities",
   "keywords": ["twitter", "x", "scraper", "api", "client", "agent", "bot"],
-  "version": "1.4.0",
+  "version": "1.4.1",
   "main": "dist/default/cjs/index.js",
   "types": "./dist/types/index.d.ts",
   "exports": {
@@ -89,5 +89,8 @@
   ],
   "engines": {
     "node": ">=16.0.0"
+  },
+  "changelog": {
+    "1.4.1": "Fixed ALL instances of twitter.com - Updated all API endpoints, web endpoints, and domain references from Twitter.com to X.com"
   }
 }
