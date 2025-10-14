@@ -155,7 +155,7 @@ export function parseLegacyTweet(
       name: mention.name,
     })),
     name: user.name,
-    permanentUrl: `https://twitter.com/${user.screen_name}/status/${tweet.id_str}`,
+    permanentUrl: `https://x.com/${user.screen_name}/status/${tweet.id_str}`,
     photos,
     replies: tweet.reply_count,
     retweets: tweet.retweet_count,

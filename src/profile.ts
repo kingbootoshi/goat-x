@@ -103,7 +103,7 @@ export function parseProfile(
     name: user.name,
     pinnedTweetIds: user.pinned_tweet_ids_str,
     tweetsCount: user.statuses_count,
-    url: `https://twitter.com/${user.screen_name}`,
+    url: `https://x.com/${user.screen_name}`,
     userId: user.id_str,
     username: user.screen_name,
     isBlueVerified: isBlueVerified ?? false,
@@ -154,7 +154,7 @@ export async function getProfile(
   params.set('fieldToggles', stringify({ withAuxiliaryUserLabels: false }) ?? '');
 
   const res = await requestApi<UserRaw>(
-    `https://twitter.com/i/api/graphql/G3KGOASz96M-Qu0nwmGXNg/UserByScreenName?${params.toString()}`,
+    `https://x.com/i/api/graphql/G3KGOASz96M-Qu0nwmGXNg/UserByScreenName?${params.toString()}`,
     auth,
   );
   if (!res.success) {
@@ -233,7 +233,7 @@ export async function getScreenNameByUserId(
   );
 
   const res = await requestApi<UserRaw>(
-    `https://twitter.com/i/api/graphql/xf3jd90KKBCUxdlI_tNHZw/UserByRestId?${params.toString()}`,
+    `https://x.com/i/api/graphql/xf3jd90KKBCUxdlI_tNHZw/UserByRestId?${params.toString()}`,
     auth,
   );
 

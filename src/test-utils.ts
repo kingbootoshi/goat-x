@@ -1,4 +1,4 @@
-import { ProxyAgent,setGlobalDispatcher } from 'undici';
+import { ProxyAgent, setGlobalDispatcher } from 'undici';
 import { Scraper } from './scraper';
 import fs from 'fs';
 

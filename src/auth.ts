@@ -236,14 +236,14 @@ export class TwitterGuestAuth implements TwitterAuth {
   private getCookieJarUrl(): string {
     return typeof document !== 'undefined'
       ? document.location.toString()
-      : 'https://twitter.com';
+      : 'https://x.com';
   }
 
   /**
    * Updates the authentication state with a new guest token from the Twitter API.
    */
   protected async updateGuestToken() {
-    const guestActivateUrl = 'https://api.twitter.com/1.1/guest/activate.json';
+    const guestActivateUrl = 'https://api.x.com/1.1/guest/activate.json';
 
     const headers = new Headers({
       Authorization: `Bearer ${this.bearerToken}`,

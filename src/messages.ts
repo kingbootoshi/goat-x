@@ -231,7 +231,7 @@ export async function getDirectMessageConversations(
   }
 
   const url =
-    'https://twitter.com/i/api/graphql/7s3kOODhC5vgXlO0OlqYdA/DMInboxTimeline';
+    'https://x.com/i/api/graphql/7s3kOODhC5vgXlO0OlqYdA/DMInboxTimeline';
   const messageListUrl = 'https://x.com/i/api/1.1/dm/inbox_initial_state.json';
 
   const params = new URLSearchParams();
@@ -284,7 +284,7 @@ export async function sendDirectMessage(
   }
 
   const url =
-    'https://twitter.com/i/api/graphql/7s3kOODhC5vgXlO0OlqYdA/DMInboxTimeline';
+    'https://x.com/i/api/graphql/7s3kOODhC5vgXlO0OlqYdA/DMInboxTimeline';
   const messageDmUrl = 'https://x.com/i/api/1.1/dm/new2.json';
 
   const cookies = await auth.cookieJar().getCookies(url);

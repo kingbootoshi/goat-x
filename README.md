@@ -1,11 +1,11 @@
-# agent-twitter-client
+# goat-x
 
-This is a modified version of [@the-convocation/twitter-scraper](https://github.com/the-convocation/twitter-scraper) with added functionality for sending tweets and retweets. This package does not require the Twitter API to use and will run in both the browser and server.
+This is a modified version of [@ai16z/agent-twitter-client](https://github.com/ai16z/agent-twitter-client) which is a modified version of [@the-convocation/twitter-scraper](https://github.com/the-convocation/twitter-scraper) with added functionality for sending tweets and retweets. This package does not require the Twitter API to use and will run in both the browser and server.
 
 ## Installation
 
 ```sh
-npm install agent-twitter-client
+npm install goat-x
 ```
 
 ## Setup
@@ -135,9 +135,6 @@ const profile = await scraper.getProfile('TwitterDev');
 
 // Get a user ID from their screen name
 const userId = await scraper.getUserIdByScreenName('TwitterDev');
-
-// Get logged-in user's profile
-const me = await scraper.me();
 ```
 
 ### Search
@@ -214,6 +211,9 @@ const tweet = await scraper.getTweet('1234567890123456789');
 
 // Send a tweet
 const sendTweetResults = await scraper.sendTweet('Hello world!');
+
+// Send a long tweet (Note Tweet) *Requires Twitter Blue
+const sendLongTweetResults = await scraper.sendLongTweet('Hello world!');
 
 // Send a quote tweet - Media files are optional
 const sendQuoteTweetResults = await scraper.sendQuoteTweet('Hello world!', '1234567890123456789', ['mediaFile1', 'mediaFile2']);

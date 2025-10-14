@@ -448,7 +448,7 @@ export async function createCreateTweetRequest(
   mediaData?: { data: Buffer; mediaType: string }[],
   hideLinkPreview = false,
 ) {
-  const onboardingTaskUrl = 'https://api.twitter.com/1.1/onboarding/task.json';
+  const onboardingTaskUrl = 'https://api.x.com/1.1/onboarding/task.json';
 
   const cookies = await auth.cookieJar().getCookies(onboardingTaskUrl);
   const xCsrfToken = cookies.find((cookie) => cookie.key === 'ct0');
@@ -499,7 +499,7 @@ export async function createCreateTweetRequest(
   }
 
   const response = await fetch(
-    'https://twitter.com/i/api/graphql/a1p9RWpkYKBjWv_I3WzS-A/CreateTweet',
+    'https://x.com/i/api/graphql/a1p9RWpkYKBjWv_I3WzS-A/CreateTweet',
     {
       headers,
       body: JSON.stringify({
@@ -566,7 +566,7 @@ export async function createCreateNoteTweetRequest(
   tweetId?: string,
   mediaData?: { data: Buffer; mediaType: string }[],
 ) {
-  const onboardingTaskUrl = 'https://api.twitter.com/1.1/onboarding/task.json';
+  const onboardingTaskUrl = 'https://api.x.com/1.1/onboarding/task.json';
 
   const cookies = await auth.cookieJar().getCookies(onboardingTaskUrl);
   const xCsrfToken = cookies.find((cookie) => cookie.key === 'ct0');
@@ -612,7 +612,7 @@ export async function createCreateNoteTweetRequest(
   }
 
   const response = await fetch(
-    'https://twitter.com/i/api/graphql/0aWhJJmFlxkxv9TAUJPanA/CreateNoteTweet',
+    'https://x.com/i/api/graphql/0aWhJJmFlxkxv9TAUJPanA/CreateNoteTweet',
     {
       headers,
       body: JSON.stringify({
@@ -1020,7 +1020,7 @@ async function uploadMedia(
   auth: TwitterAuth,
   mediaType: string,
 ): Promise<string> {
-  const uploadUrl = 'https://upload.twitter.com/1.1/media/upload.json';
+  const uploadUrl = 'https://upload.x.com/1.1/media/upload.json';
 
   // Get authentication headers
   const cookies = await auth.cookieJar().getCookies(uploadUrl);
@@ -1174,7 +1174,7 @@ export async function createQuoteTweetRequest(
   auth: TwitterAuth,
   mediaData?: { data: Buffer; mediaType: string }[],
 ) {
-  const onboardingTaskUrl = 'https://api.twitter.com/1.1/onboarding/task.json';
+  const onboardingTaskUrl = 'https://api.x.com/1.1/onboarding/task.json';
 
   // Retrieve necessary cookies and tokens
   const cookies = await auth.cookieJar().getCookies(onboardingTaskUrl);
@@ -1196,7 +1196,7 @@ export async function createQuoteTweetRequest(
   const variables: Record<string, any> = {
     tweet_text: text,
     dark_request: false,
-    attachment_url: `https://twitter.com/twitter/status/${quotedTweetId}`,
+    attachment_url: `https://x.com/twitter/status/${quotedTweetId}`,
     media: {
       media_entities: [],
       possibly_sensitive: false,
@@ -1220,7 +1220,7 @@ export async function createQuoteTweetRequest(
 
   // Send the GraphQL request to create a quote tweet
   const response = await fetch(
-    'https://twitter.com/i/api/graphql/a1p9RWpkYKBjWv_I3WzS-A/CreateTweet',
+    'https://x.com/i/api/graphql/a1p9RWpkYKBjWv_I3WzS-A/CreateTweet',
     {
       headers,
       body: JSON.stringify({
@@ -1294,7 +1294,7 @@ export async function likeTweet(
 ): Promise<void> {
   // Prepare the GraphQL endpoint and payload
   const likeTweetUrl =
-    'https://twitter.com/i/api/graphql/lI07N6Otwv1PhnEgXILM7A/FavoriteTweet';
+    'https://x.com/i/api/graphql/lI07N6Otwv1PhnEgXILM7A/FavoriteTweet';
 
   // Retrieve necessary cookies and tokens
   const cookies = await auth.cookieJar().getCookies(likeTweetUrl);
@@ -1344,7 +1344,7 @@ export async function retweet(
 ): Promise<void> {
   // Prepare the GraphQL endpoint and payload
   const retweetUrl =
-    'https://twitter.com/i/api/graphql/ojPdsZsimiJrUGLR1sjUtA/CreateRetweet';
+    'https://x.com/i/api/graphql/ojPdsZsimiJrUGLR1sjUtA/CreateRetweet';
 
   // Retrieve necessary cookies and tokens
   const cookies = await auth.cookieJar().getCookies(retweetUrl);
@@ -1392,7 +1392,7 @@ export async function createCreateLongTweetRequest(
   // URL for the long tweet endpoint
   const url =
     'https://x.com/i/api/graphql/YNXM2DGuE2Sff6a2JD3Ztw/CreateNoteTweet';
-  const onboardingTaskUrl = 'https://api.twitter.com/1.1/onboarding/task.json';
+  const onboardingTaskUrl = 'https://api.x.com/1.1/onboarding/task.json';
 
   const cookies = await auth.cookieJar().getCookies(onboardingTaskUrl);
   const xCsrfToken = cookies.find((cookie) => cookie.key === 'ct0');

@@ -75,7 +75,7 @@ export async function fetchAudioSpaceById(
 
     const url = `https://x.com/i/api/graphql/${queryId}/${operationName}?variables=${variablesEncoded}&features=${featuresEncoded}`;
 
-    const onboardingTaskUrl = 'https://api.twitter.com/1.1/onboarding/task.json';
+    const onboardingTaskUrl = 'https://api.x.com/1.1/onboarding/task.json';
 
     // Retrieve necessary cookies and tokens
     const cookies = await auth.cookieJar().getCookies(onboardingTaskUrl);
@@ -135,7 +135,7 @@ export async function fetchBrowseSpaceTopics(
 
     const url = `https://x.com/i/api/graphql/${queryId}/${operationName}?variables=${variablesEncoded}&features=${featuresEncoded}`;
 
-    const onboardingTaskUrl = 'https://api.twitter.com/1.1/onboarding/task.json';
+    const onboardingTaskUrl = 'https://api.x.com/1.1/onboarding/task.json';
 
     // Retrieve necessary cookies and tokens
     const cookies = await auth.cookieJar().getCookies(onboardingTaskUrl);
@@ -198,7 +198,7 @@ export async function fetchCommunitySelectQuery(
 
     const url = `https://x.com/i/api/graphql/${queryId}/${operationName}?variables=${variablesEncoded}&features=${featuresEncoded}`;
 
-    const onboardingTaskUrl = 'https://api.twitter.com/1.1/onboarding/task.json';
+    const onboardingTaskUrl = 'https://api.x.com/1.1/onboarding/task.json';
 
     // Retrieve necessary cookies and tokens
     const cookies = await auth.cookieJar().getCookies(onboardingTaskUrl);
@@ -261,7 +261,7 @@ export async function fetchLiveVideoStreamStatus(
 
     const url = `${baseUrl}?${queryParams.toString()}`;
 
-    const onboardingTaskUrl = 'https://api.twitter.com/1.1/onboarding/task.json';
+    const onboardingTaskUrl = 'https://api.x.com/1.1/onboarding/task.json';
 
     // Retrieve necessary cookies and tokens
     const cookies = await auth.cookieJar().getCookies(onboardingTaskUrl);
@@ -325,7 +325,7 @@ export async function fetchAuthenticatePeriscope(
 
     const url = `https://x.com/i/api/graphql/${queryId}/${operationName}?variables=${variablesEncoded}&features=${featuresEncoded}`;
 
-    const onboardingTaskUrl = 'https://api.twitter.com/1.1/onboarding/task.json';
+    const onboardingTaskUrl = 'https://api.x.com/1.1/onboarding/task.json';
 
     const cookies = await auth.cookieJar().getCookies(onboardingTaskUrl);
     const xCsrfToken = cookies.find((cookie) => cookie.key === 'ct0');
