@@ -98,6 +98,7 @@ async function getSearchTimeline(
     count: maxItems,
     querySource: 'typed_query',
     product: 'Top',
+    withGrokTranslatedBio: false,
   };
 
   const features = addApiFeatures({
@@ -111,10 +112,6 @@ async function getSearchTimeline(
     responsive_web_text_conversations_enabled: false,
     vibe_api_enabled: false,
   });
-
-  const fieldToggles: Record<string, any> = {
-    withArticleRichContentState: false,
-  };
 
   if (cursor != null && cursor != '') {
     variables['cursor'] = cursor;
@@ -139,11 +136,10 @@ async function getSearchTimeline(
 
   const params = new URLSearchParams();
   params.set('features', stringify(features) ?? '');
-  params.set('fieldToggles', stringify(fieldToggles) ?? '');
   params.set('variables', stringify(variables) ?? '');
 
   const res = await requestApi<SearchTimeline>(
-    `https://api.x.com/graphql/gkjsKepM6gl_HmFWoWKfgg/SearchTimeline?${params.toString()}`,
+    `https://api.x.com/graphql/7r8ibjHuK3MWUyzkzHNMYQ/SearchTimeline?${params.toString()}`,
     auth,
   );
 
