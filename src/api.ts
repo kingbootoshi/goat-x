@@ -8,6 +8,18 @@ import { Headers } from 'headers-polyfill';
 // `(url: string) => string` in tests.
 type FetchParameters = [input: RequestInfo | URL, init?: RequestInit];
 
+export interface RequestApiOptions {
+  headers?: Record<string, string | undefined>;
+  body?: BodyInit | null;
+  platform?: PlatformExtensions;
+}
+
+export const DEFAULT_USER_AGENT =
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36';
+
+const DEFAULT_REFERER = 'https://x.com/';
+const DEFAULT_ACCEPT_LANGUAGE = 'en-US,en;q=0.9';
+
 export interface FetchTransformOptions {
   /**
    * Transforms the request options before a request is made. This executes after all of the default
@@ -50,20 +62,44 @@ export async function requestApi<T>(
   url: string,
   auth: TwitterAuth,
   method: 'GET' | 'POST' = 'GET',
-  platform: PlatformExtensions = new Platform(),
+  options: RequestApiOptions = {},
 ): Promise<RequestApiResult<T>> {
   const headers = new Headers();
+  headers.set('User-Agent', DEFAULT_USER_AGENT);
+  headers.set('accept', '*/*');
+  headers.set('accept-language', DEFAULT_ACCEPT_LANGUAGE);
+  headers.set('Referer', DEFAULT_REFERER);
+  headers.set('x-twitter-active-user', 'yes');
+  headers.set('x-twitter-client-language', 'en');
+
   await auth.installTo(headers, url);
+  headers.set('x-twitter-auth-type', auth.authType());
+
+  if (options.headers) {
+    for (const [key, value] of Object.entries(options.headers)) {
+      if (value != null) {
+        headers.set(key, value);
+      }
+    }
+  }
+
+  const platform = options.platform ?? new Platform();
   await platform.randomizeCiphers();
 
   let res: Response;
   do {
     try {
-      res = await auth.fetch(url, {
+      const requestInit: RequestInit = {
         method,
         headers,
         credentials: 'include',
-      });
+      };
+
+      if (options.body != null) {
+        requestInit.body = options.body;
+      }
+
+      res = await auth.fetch(url, requestInit);
     } catch (err) {
       if (!(err instanceof Error)) {
         throw err;

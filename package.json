@@ -24,6 +24,7 @@
     "docs:deploy": "npm run docs:generate && gh-pages -d docs",
     "format": "prettier --write src/**/*.ts",
     "test": "jest",
+    "search:test": "ts-node --project tsconfig.json scripts/search-test.ts",
     "prepublishOnly": "npm run build",
     "prepack": "npm run build"
   },
@@ -64,6 +65,7 @@
     "rollup": "^4.18.0",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-esbuild": "^6.1.1",
+    "ts-node": "^10.9.2",
     "ts-jest": "^29.1.0",
     "typedoc": "^0.24.7",
     "typescript": "^5.0.4"

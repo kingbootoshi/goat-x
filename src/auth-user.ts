@@ -60,6 +60,10 @@ export class TwitterUserAuth extends TwitterGuestAuth {
     super(bearerToken, options);
   }
 
+  authType(): 'OAuth2Session' {
+    return 'OAuth2Session';
+  }
+
   async isLoggedIn(): Promise<boolean> {
     const res = await requestApi<TwitterUserAuthVerifyCredentials>(
       'https://api.x.com/1.1/account/verify_credentials.json',
@@ -160,7 +164,7 @@ export class TwitterUserAuth extends TwitterGuestAuth {
     }
   }
 
-  async installTo(headers: Headers): Promise<void> {
+  async installTo(headers: Headers, _url?: string): Promise<void> {
     headers.set('authorization', `Bearer ${this.bearerToken}`);
     headers.set('cookie', await this.getCookieString());
     await this.installCsrfToken(headers);

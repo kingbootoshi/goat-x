@@ -81,6 +81,11 @@ export interface TwitterAuth {
   authenticatedAt(): Date | null;
 
   /**
+   * Returns the Twitter auth type header value for the current session.
+   */
+  authType(): 'OAuth2Client' | 'OAuth2Session';
+
+  /**
    * Installs the authentication information into a headers-like object. If needed, the
    * authentication token will be updated from the API automatically.
    * @param headers A Headers instance representing a request's headers.
@@ -189,7 +194,11 @@ export class TwitterGuestAuth implements TwitterAuth {
     return new Date(this.guestCreatedAt);
   }
 
-  async installTo(headers: Headers): Promise<void> {
+  authType(): 'OAuth2Client' | 'OAuth2Session' {
+    return 'OAuth2Client';
+  }
+
+  async installTo(headers: Headers, _url?: string): Promise<void> {
     if (this.shouldUpdate()) {
       await this.updateGuestToken();
     }
