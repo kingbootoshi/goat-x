@@ -2,7 +2,7 @@
   "name": "goat-x",
   "description": "A Twitter/X client for agents with scraping and posting capabilities",
   "keywords": ["twitter", "x", "scraper", "api", "client", "agent", "bot"],
-  "version": "1.4.3",
+  "version": "1.4.4",
   "main": "dist/default/cjs/index.js",
   "types": "./dist/types/index.d.ts",
   "exports": {
@@ -93,6 +93,7 @@
     "node": ">=16.0.0"
   },
   "changelog": {
+    "1.4.4": "Fixed search results to properly extract username and name from user.core instead of user.legacy",
     "1.4.3": "Updated SearchTimeline endpoint URL and query ID, added auth type headers to auth system",
     "1.4.2": "Updated SearchTimeline API endpoint query ID and parameters to match latest X.com API",
     "1.4.1": "Fixed ALL instances of twitter.com - Updated all API endpoints, web endpoints, and domain references from Twitter.com to X.com"
