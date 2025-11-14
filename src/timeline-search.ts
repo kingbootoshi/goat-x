@@ -47,7 +47,7 @@ export function parseSearchTimelineTweets(
         if (itemContent?.tweetDisplayType === 'Tweet') {
           const tweetResultRaw = itemContent.tweet_results?.result;
           const tweetResult = parseLegacyTweet(
-            tweetResultRaw?.core?.user_results?.result?.legacy,
+            tweetResultRaw?.core?.user_results?.result?.core,
             tweetResultRaw?.legacy,
           );
 

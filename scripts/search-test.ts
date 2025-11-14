@@ -41,8 +41,8 @@ function log(level: LogLevel, message: string, meta?: Record<string, unknown>) {
     level === 'error'
       ? '\x1b[31m[ERROR]\x1b[0m'
       : level === 'debug'
-        ? '\x1b[35m[DEBUG]\x1b[0m'
-        : '\x1b[36m[INFO]\x1b[0m';
+      ? '\x1b[35m[DEBUG]\x1b[0m'
+      : '\x1b[36m[INFO]\x1b[0m';
 
   const suffix = meta ? ` ${JSON.stringify(meta)}` : '';
   console.log(`${prefix} ${message}${suffix}`);
@@ -147,12 +147,17 @@ function resolveSearchMode(input?: string): SearchMode {
   }
 }
 
-function summarizeTweet(tweet: Tweet): Record<string, string | number | undefined> {
+function summarizeTweet(
+  tweet: Tweet,
+): Record<string, string | number | undefined> {
   return {
     id: tweet.id,
     username: tweet.username,
+    name: tweet.name,
     likes: tweet.likes,
     retweets: tweet.retweets,
+    timestamp: tweet.timestamp,
+    timeParsed: tweet.timeParsed?.toISOString(),
     text: (tweet.text ?? '').replace(/\s+/g, ' ').slice(0, 140),
   };
 }
@@ -190,8 +195,13 @@ async function main() {
   });
 
   const tweets: Tweet[] = [];
-  for await (const tweet of scraper.searchTweets(queryArg, maxTweets, searchMode)) {
+  for await (const tweet of scraper.searchTweets(
+    queryArg,
+    maxTweets,
+    searchMode,
+  )) {
     tweets.push(tweet);
+    log('debug', 'RAW TWEET DATA', { tweet });
     log('debug', 'Tweet received', summarizeTweet(tweet));
   }
 
